@@ -1,37 +1,30 @@
 #!/bin/bash
 
-function ensure_draft_api() {
+function ensure_draft() {
     local SERVER="$1"
     local ORG="$2"
-    local API_FQN="$3" 
-    local YAML_FILE_PATH="$4"
+    local TYPE="$3"
+    local FQN="$4" 
+    local YAML_FILE_PATH="$5"
     
-    apic draft-apis:get --server "$SERVER" --org "$ORG" "$API_FQN" --output - > /dev/null 2>&1 && \
-        apic draft-apis:update --server "$SERVER" --org "$ORG" "$API_FQN" "$YAML_FILE_PATH" || \
-            apic draft-apis:create --server "$SERVER" --org "$ORG" "$YAML_FILE_PATH"
+    apic draft-${TYPE}:get --server "$SERVER" --org "$ORG" "$FQN" --output - > /dev/null 2>&1 && \
+        apic draft-${TYPE}:update --server "$SERVER" --org "$ORG" "$FQN" "$YAML_FILE_PATH" || \
+            apic draft-${TYPE}:create --server "$SERVER" --org "$ORG" "$YAML_FILE_PATH"
 }
 
-function validate_api() {
+function validate_api_or_product() {
     local SERVER="$1"
     local ORG="$2"
-    local API_FQN="$3"
+    local TYPE="$3"
+    local FQN="$4"
     
-    apic draft-apis:validate --server "$SERVER" --org "$ORG" "$API_FQN" && \
+    apic draft-${TYPE}:validate --server "$SERVER" --org "$ORG" "$FQN" && \
         return 0 || return 1
 }
 
-function post_bitbucket_build_status() {
-    local REF="$1"
-    local BUILD_STATUS_JSON_FILE="$2"
-    local API_BASE_URL="$3"
-    local GIT_TOKEN="$4"
-    
-    curl -X POST -H 'Content-Type: application/json' \
-        -H "Authorization: Bearer $GIT_TOKEN" \
-        -d @bitbucket-build-status.json \
-        ${API_BASE_URL}/rest/build-status/1.0/commits/${$REF}
-}
 
 function init_env() {
-    git config --global --add safe.directory $PWD
+    git config --global --add safe.directory "*"
+    git config --global user.name "Jenkins"
+    git config --global user.email "contact@jenkins.com"
 }

@@ -48,10 +48,10 @@ ans=$(apic gateway-services:list --server ${server} --scope org --org ${porg_nam
 while IFS= read -r line
 do
    n=$(($n + 1))
-gURL=$(echo ${line} | cut -d' ' -f 2)
-gateway_url="gateway_service_url: ${gURL}"
-echo ${gateway_url}
-echo ${gateway_url}>gwsvc${n}.txt
+   gURL=$(echo ${line} | cut -d' ' -f 4)
+   gateway_url="gateway_service_url: ${gURL}"
+   echo ${gateway_url}
+   echo ${gateway_url}>gwsvc${n}.txt
 done <<< ${ans}
 
 
@@ -59,10 +59,10 @@ echo there are ${n} gateways available
 echo               :
 echo configure gateways for sandbox catalog
 
-for (( c=1; c<=${n}; c++ ))
-do  
-   apic configured-gateway-services:create --server ${server} --org ${porg_name} --scope catalog --catalog sandbox gwsvc${c}.txt
-done
+# for (( c=1; c<=${n}; c++ ))
+# do  
+#    apic configured-gateway-services:create --server ${server} --org ${porg_name} --scope catalog --catalog sandbox gwsvc${c}.txt
+# done
 
 echo work complete log out
 apic logout --server ${server}

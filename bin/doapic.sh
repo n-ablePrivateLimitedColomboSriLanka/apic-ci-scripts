@@ -9,3 +9,4 @@ source "$SCRIPT_DIR/source.sh"
 init_env
 
 $METHOD $ARGS
+exit $?

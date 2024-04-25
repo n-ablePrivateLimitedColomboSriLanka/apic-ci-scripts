@@ -1,0 +1,1 @@
+gateway_service_url: https://platform-api.mgmt.prod.apic10stack.local/api/orgs/b248aec4-84b8-48cc-b3d0-d33eb7d058cc/gateway-services/24ff14e8-17a3-4db5-b61f-a45b22d346e6

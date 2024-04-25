@@ -1,0 +1,4 @@
+product_url: https://platform-api.mgmt.prod.apic10stack.local/api/catalogs/b248aec4-84b8-48cc-b3d0-d33eb7d058cc/92219159-0532-4552-b7a7-d372be8e2675/products/c2ca0ab4-a68e-4512-b142-e4a8f95b3b92
+plans:
+- source: default
+  target: default

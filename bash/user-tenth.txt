@@ -1,0 +1,5 @@
+username: tenth
+email: tenth@example.com
+first_name: Tenth
+last_name: Man
+password: Passw0rd

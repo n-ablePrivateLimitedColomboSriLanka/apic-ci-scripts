@@ -20,7 +20,7 @@ echo "name: tenths">tenths-org.txt
 echo "title: Tenth Man">>tenths-org.txt
 
 
-apic login --username ${user} --password ${password} --realm provider/default-idp-2
+apic login -s ${server} --username ${user} --password ${password} --realm provider/default-idp-2
 
 sleep 1
 
