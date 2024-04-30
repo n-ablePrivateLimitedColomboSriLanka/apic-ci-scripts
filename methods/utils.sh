@@ -22,6 +22,12 @@ function validate_api_or_product() {
         return 0 || return 1
 }
 
+function git_with_basic_auth() {
+    local GIT_CRED="$1"
+    shift 1
+    git -c http.extraheader="Authorization: Basic $(echo -n "$GIT_CRED" | base64)" "$@"
+}
+
 
 function init_env() {
     git config --global --add safe.directory "*"
