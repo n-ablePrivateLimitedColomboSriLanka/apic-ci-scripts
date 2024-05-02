@@ -58,7 +58,7 @@ function git_push_ref() {
     echo "SUB_PATH: $SUB_PATH"
     
     cd "$SUB_PATH"
-    git -c http.extraheader="Authorization: Basic $(echo -n "$GIT_CRED" | base64)" push -u origin "$REF"
+    git_with_basic_auth "$GIT_CRED" push -u origin "$REF"
 }
 
 function is_ref_up_to_date() {
@@ -86,8 +86,25 @@ function post_bitbucket_build_status() {
     local API_BASE_URL="$3"
     local GIT_TOKEN="$4"
 
-    curl -X POST -H 'Content-Type: application/json' \
+    curl -s -X POST -H 'Content-Type: application/json' \
         -H "Authorization: Bearer ${GIT_TOKEN}" \
         -d @bitbucket-build-status.json \
         "${API_BASE_URL}/rest/build-status/1.0/commits/${REF}"
+}
+
+function publish_product() {
+    local SERVER="$1"
+    local ORG="$2"
+    local CATALOG="$3"
+    local YAML_FILE_PATH="$4"
+    local API_KEY="$5"
+    local STAGE="${6:-false}"
+    if [ "$STAGE" = true ]; then
+        STAGE_OPTION=" --stage"
+    fi
+    
+    login_with_api_key "$SERVER" "$API_KEY"
+    PUBLISH_CMD="apic products:publish$STAGE_OPTION --server $SERVER --org $ORG --catalog $CATALOG $YAML_FILE_PATH"
+    ls -l
+    $PUBLISH_CMD
 }
